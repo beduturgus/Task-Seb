@@ -15,37 +15,36 @@ class GenerateAndCompareService {
         long[] listA = generateList(Long.parseLong(pradiniaiSkaiciai[0]), KOEFICIENTAS_A);
         long[] listB = generateList(Long.parseLong(pradiniaiSkaiciai[1]), KOEFICIENTAS_B);
 
-        List<String[]> binaryLists = stringListsToBinaryLists(listA, listB);
+        List<String[]> binaryLists = longListsToBinaryLists(listA, listB);
 
         return compareBinaryLists(binaryLists);
     }
 
     private static long[] generateList(long pradinisSkaicius, long koficientas) {
-        long liekana;
-        long[] rezultatas = new long[ITERACIJU_KIEKIS];
+        long remainder;
+        long[] result = new long[ITERACIJU_KIEKIS];
 
-        liekana = pradinisSkaicius;
+        remainder = pradinisSkaicius;
         for (int i = 0; i < ITERACIJU_KIEKIS; i++) {
-            liekana = (liekana * koficientas) % GenerateAndCompareService.DALYBA;
-            rezultatas[i] = liekana;
+            remainder = (remainder * koficientas) % GenerateAndCompareService.DALYBA;
+            result[i] = remainder;
         }
-        return rezultatas;
+        return result;
     }
 
-    private static List<String[]> stringListsToBinaryLists(long[]... list) {
+    private static List<String[]> longListsToBinaryLists(long[]... longList) {
         List<String[]> result = new ArrayList<>();
 
-        for (long[] aList : list) {
-            String[] binaryList = new String[aList.length];
-            String binaryString;
-            for (int j = 0; j < aList.length; j++) {
-                binaryString = Integer.toBinaryString(Math.toIntExact(aList[j]));
-                StringBuilder resultStringLength8 = new StringBuilder(binaryString);
+        for (long[] list : longList) {
+            String[] binaryList = new String[list.length];
+            StringBuilder binaryString;
+            for (int j = 0; j < list.length; j++) {
+                binaryString = new StringBuilder(Integer.toBinaryString(Math.toIntExact(list[j])));
 
-                while (resultStringLength8.length() < 8) {
-                    resultStringLength8.insert(0, "0");
+                while (binaryString.length() < 8) {
+                    binaryString.insert(0, "0");
                 }
-                binaryList[j] = resultStringLength8.toString();
+                binaryList[j] = binaryString.toString();
             }
             result.add(binaryList);
         }
